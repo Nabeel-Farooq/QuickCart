@@ -1,24 +1,37 @@
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Outfit } from "next/font/google";
-import "./globals.css";
-import { AppContextProvider } from "@/context/AppContext";
 import { Toaster } from "react-hot-toast";
 
-const outfit = Outfit({ subsets: ['latin'], weight: ["300", "400", "500"] })
+import { AppContextProvider } from "@/context/AppContext";
 
-export const metadata = {
+import "./globals.css";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
+
+export const metadata: Metadata = {
   title: "QuickCart - GreatStack",
-  description: "E-Commerce with Next.js ",
+  description: "E-Commerce with Next.js",
 };
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  readonly children: ReactNode;
+}
+
+export default function RootLayout({
+  children,
+}: RootLayoutProps) {
   return (
-      <html lang="en">
-        <body className={`${outfit.className} antialiased text-gray-700`} >
+    <html lang="en">
+      <body className={`${outfit.className} antialiased text-gray-700`}>
+        <AppContextProvider>
+          {children}
           <Toaster />
-          <AppContextProvider>
-            {children}
-          </AppContextProvider>
-        </body>
-      </html>
+        </AppContextProvider>
+      </body>
+    </html>
   );
 }
